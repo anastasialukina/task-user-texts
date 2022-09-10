@@ -17,21 +17,16 @@ class TextSeeder extends Seeder
     {
         $dir = 'database/texts';
         $files = scandir($dir);
-        //dd($files);
 
         $users = DB::table('users')->pluck('id');
-        //dd($users);
+
         foreach ($users as $user) {
             foreach ($files as $file) {
-                //print_r($user);
-                print_r($file);
                 if (str_starts_with($file, '.')) {
                     continue;
                 }
                 $filePath = $dir . '/' . $file;
-                print_r($file);
                 $content = file_get_contents($filePath);
-                print_r($content);
                 if (str_starts_with($file, $user)) {
                     DB::insert('insert into texts (user_id, text) values (?, ?)', [$user, $content]);
                 }
